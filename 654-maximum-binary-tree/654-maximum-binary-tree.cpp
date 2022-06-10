@@ -12,16 +12,17 @@
 class Solution {
 public:
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        return constructTree(nums, 0, nums.size() - 1);
+        return construct(nums, 0, nums.size() - 1);
     }
     
-    TreeNode* constructTree(vector<int>& nums, int i, int j)
-    {
-        if(i > j) return NULL;
-        int ind = max_element(nums.begin() + i, nums.begin() + j + 1) - nums.begin();
-        TreeNode* root = new TreeNode(nums[ind]);
-        root->left = constructTree(nums, i, ind - 1);
-        root->right = constructTree(nums, ind + 1, j);
+    TreeNode* construct(vector<int>& nums, int i, int j) {
+        if (i > j) return NULL;
+        auto max_ele = max_element(nums.begin() + i, nums.begin() + j + 1);
+        
+        TreeNode* root = new TreeNode(*max_ele);
+        root->left = construct(nums, i, max_ele - nums.begin() - 1);
+        root->right = construct(nums, max_ele - nums.begin() + 1, j);
+        
         return root;
     }
 };
