@@ -12,20 +12,37 @@
 class Solution {
 public:
     bool isBalanced(TreeNode* root) {
-        bool result = true;
-        getDepth(root, result);
-        return result;
-    }
-    
-    int getDepth(TreeNode* root, bool &result) {
-        if (root == NULL) return 0;
+        if (root == NULL) return true;
+        stack<TreeNode*> stk;
+        unordered_map<TreeNode*, int> visited;
+        stk.push(root);
         
-        int left = getDepth(root->left, result);
-        int right = getDepth(root->right, result);
+        while(!stk.empty()) {
+            TreeNode* topNode = stk.top();
+            
+            
+            if (topNode->left && visited.find(topNode->left) == visited.end()) {
+                stk.push(topNode->left);
+                continue;
+            }
+            
+            
+            if (topNode->right && visited.find(topNode->right) == visited.end()) {
+                stk.push(topNode->right);
+                continue;
+            }
+            
+            int leftDepth = 0, rightDepth = 0;
+            if (topNode->left && visited.find(topNode->left) != visited.end())
+                leftDepth = visited[topNode->left];
+            
+            if (topNode->right && visited.find(topNode->right) != visited.end())
+                rightDepth = visited[topNode->right];
+            if (abs(leftDepth - rightDepth) > 1) return false;
+            visited[topNode] = 1 + max(leftDepth, rightDepth);
+            stk.pop();
+        }
         
-        if (abs(left - right) > 1)
-            result = false; 
-        
-        return 1 + max(left, right);
+        return true;
     }
 };
