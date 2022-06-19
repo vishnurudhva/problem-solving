@@ -24,9 +24,7 @@ public:
     }
     
     int pop() {
-        if (!s2.empty()) return getTop();
-        
-        flushStack();
+        peek();
         
         return getTop();
     }
