@@ -5,12 +5,11 @@ public:
         for(char c: s) {
             map[c]++;
         }
-        int longestLen = 0, offset = 0;
+        int offset = 0;
         for(auto m: map) {
-            if(m.second % 2 == 1) offset = 1;
-            longestLen += (m.second % 2 == 0 ? m.second: m.second - 1);
+            offset += m.second % 2;
         }
         
-        return longestLen + offset;
+        return s.size() - offset + (offset > 0);
     }
 };
