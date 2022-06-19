@@ -12,17 +12,21 @@
 class Solution {
 public:
     int diameterOfBinaryTree(TreeNode* root) {
-        int d = 0;
-        maxDepth(root, d);
-        return d;
+        int maxDiameter = 0;
+        
+        findDiameter(root, maxDiameter);
+        
+        return maxDiameter;
     }
     
-    int maxDepth(TreeNode* root, int& d)
-    {
+    int findDiameter(TreeNode* root, int& maxDiameter) {
         if(root == NULL) return 0;
-        int left = maxDepth(root->left, d);
-        int right = maxDepth(root->right, d);
-        d = max(d, left + right);
-        return max(left, right) + 1;
+        
+        int left = findDiameter(root->left, maxDiameter);
+        int right = findDiameter(root->right, maxDiameter);
+        
+        maxDiameter = max(maxDiameter, left + right);
+        
+        return 1 + max(left, right);
     }
 };
