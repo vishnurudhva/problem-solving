@@ -10,29 +10,31 @@ public:
         s1.push(x);
     }
     
-    int pop() {
-        if (!s2.empty()) {
-            int top = s2.top();
-            s2.pop();
-            return top;
-        }
-        
-        while(!s1.empty()) {
-            s2.push(s1.top());
-            s1.pop();
-        }
+    int getTop() {
         int top = s2.top();
         s2.pop();
         return top;
     }
     
-    int peek() {
-        if (!s2.empty()) return s2.top();
-        
+    void flushStack() {
         while(!s1.empty()) {
             s2.push(s1.top());
             s1.pop();
         }
+    }
+    
+    int pop() {
+        if (!s2.empty()) return getTop();
+        
+        flushStack();
+        
+        return getTop();
+    }
+    
+    int peek() {
+        if (!s2.empty()) return s2.top();
+        
+        flushStack();
         
         return s2.top();
     }
