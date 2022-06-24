@@ -1,8 +1,7 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        unordered_set<int> visited;
-        unordered_set<int> done;
+        vector<bool> done(numCourses, false), visited(numCourses, false);
         unordered_map<int, vector<int>> adjList; 
         
         for (vector<int> pre: prerequisites) {
@@ -13,23 +12,23 @@ public:
         }
         
         for (int i = 0; i < numCourses; i++) {
-            if(done.find(i) == done.end() && !canFinishHelper(adjList, i, visited, done))
+            if(!done[i] && !canFinishHelper(adjList, i, visited, done))
                 return false;
         }
         
         return true;
     }
     
-    bool canFinishHelper(unordered_map<int, vector<int>>& adjList, int currentCourse, unordered_set<int>& visited, unordered_set<int>& done) {
-        if (visited.find(currentCourse) != visited.end()) return false;
-        if (done.find(currentCourse) != done.end()) return true;
-        visited.insert(currentCourse);
+    bool canFinishHelper(unordered_map<int, vector<int>>& adjList, int currentCourse, vector<bool>& visited, vector<bool>& done) {
+        if (visited[currentCourse]) return false;
+        if (done[currentCourse]) return true;
+        visited[currentCourse] = true;
         for (int i = 0; i < adjList[currentCourse].size(); i++) {
             if (!canFinishHelper(adjList, adjList[currentCourse][i], visited, done))
                 return false;
         }
-        visited.erase(currentCourse);
-        done.insert(currentCourse);
+        visited[currentCourse] = false;
+        done[currentCourse] = true;
         return true;
     }
 };
