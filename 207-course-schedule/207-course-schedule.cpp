@@ -1,34 +1,29 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<bool> done(numCourses, false), visited(numCourses, false);
-        unordered_map<int, vector<int>> adjList; 
+        vector<vector<int>> adjList(numCourses);
+        vector<int> inDegrees(numCourses, 0);
         
-        for (vector<int> pre: prerequisites) {
-            adjList[pre[0]].push_back(pre[1]);
-            
-            if (adjList.find(pre[1]) == adjList.end())
-                adjList[pre[1]] = {};
+        for (vector<int> prerequisite: prerequisites) {
+            adjList[prerequisite[1]].push_back(prerequisite[0]);
+            inDegrees[prerequisite[0]]++;
         }
-        
+        queue<int> q;
         for (int i = 0; i < numCourses; i++) {
-            if(!done[i] && !canFinishHelper(adjList, i, visited, done))
-                return false;
+            if (inDegrees[i] == 0)
+                q.push(i);
         }
         
-        return true;
-    }
-    
-    bool canFinishHelper(unordered_map<int, vector<int>>& adjList, int currentCourse, vector<bool>& visited, vector<bool>& done) {
-        if (visited[currentCourse]) return false;
-        if (done[currentCourse]) return true;
-        visited[currentCourse] = true;
-        for (int i = 0; i < adjList[currentCourse].size(); i++) {
-            if (!canFinishHelper(adjList, adjList[currentCourse][i], visited, done))
-                return false;
+        while(!q.empty()) {
+            int degree = q.front();
+            q.pop();
+            numCourses--;
+            for (int i = 0; i < adjList[degree].size(); i++) {
+                if (--inDegrees[adjList[degree][i]] == 0)
+                    q.push(adjList[degree][i]);
+            }
         }
-        visited[currentCourse] = false;
-        done[currentCourse] = true;
-        return true;
+        
+        return numCourses == 0;
     }
 };
