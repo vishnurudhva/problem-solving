@@ -8,7 +8,6 @@ public:
     }
     
     string get(string key, int timestamp) {
-        if (map[key].size() == 0) return "";
         int i = 0, j = map[key].size() - 1, mid;
         while (i <= j) {
             mid = i + (j - i) / 2;
@@ -17,8 +16,7 @@ public:
             else if (map[key][mid].first > timestamp) j = mid - 1;
             else i = mid + 1;
         }
-        if (i - 1 < 0) return ""; 
-        return map[key][i - 1].second;
+        return (i - 1 < 0) ? "" : map[key][i - 1].second;
     }
 };
 
