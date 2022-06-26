@@ -1,13 +1,15 @@
 class Trie {
-public:
-    map<char, Trie*> trieMap;
+private:
+    vector<Trie*> trieMap;
     bool isEnd = false;
+public:
+    Trie() { trieMap = vector<Trie*>(26); }
     void insert(string word) {
         Trie* node = this;
         for (char c: word) {
-            if (node->trieMap.find(c) == node->trieMap.end())
-                node->trieMap[c] = new Trie();
-            node = node->trieMap[c];
+            if (!node->trieMap[c - 'a'])
+                node->trieMap[c - 'a'] = new Trie();
+            node = node->trieMap[c- 'a'];
         }
         node->isEnd = true;
     }
@@ -15,21 +17,20 @@ public:
     bool search(string word) {
         Trie* node = this;
         for (char c: word) {
-            if (node->trieMap.find(c) == node->trieMap.end())
+            if (!node->trieMap[c - 'a'])
                 return false;
-            node = node->trieMap[c];
+            node = node->trieMap[c - 'a'];
         }
         return node->isEnd;
     }
     
     bool startsWith(string word) {
         Trie* node = this;
-        for (char c: word)
-            if (node->trieMap.find(c) != node->trieMap.end())
-                node = node->trieMap[c];
-            else
+        for (char c: word) {
+            if (!node->trieMap[c - 'a'])
                 return false;
-        
+            node = node->trieMap[c - 'a'];
+        }
         return true;
     }
 };
