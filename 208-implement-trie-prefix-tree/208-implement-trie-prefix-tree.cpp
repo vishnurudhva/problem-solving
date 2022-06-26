@@ -1,6 +1,6 @@
 class Trie {
 public:
-    unordered_map<char, Trie*> trieMap;
+    map<char, Trie*> trieMap;
     bool isEnd = false;
     void insert(string word) {
         Trie* node = this;
