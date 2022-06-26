@@ -1,26 +1,12 @@
-class TrieNode {
-public:
-    char chr;
-    unordered_map<char, TrieNode*> trieMap;
-    bool isEnd;
-    TrieNode(char chr) {
-        this->chr = chr;
-        isEnd = false;
-    }
-};
-
 class Trie {
 public:
-    TrieNode* head;
-    Trie() {
-        head = new TrieNode('0');
-    }
-    
+    unordered_map<char, Trie*> trieMap;
+    bool isEnd = false;
     void insert(string word) {
-        TrieNode* node = head;
+        Trie* node = this;
         for (char c: word)
             if (node->trieMap.find(c) == node->trieMap.end()) {
-                TrieNode* newNode = new TrieNode(c);
+                Trie* newNode = new Trie();
                 node->trieMap[c] = newNode;
                 node = newNode;
             }
@@ -30,7 +16,7 @@ public:
     }
     
     bool search(string word) {
-        TrieNode* node = head;
+        Trie* node = this;
         for (char c: word)
             if (node->trieMap.find(c) != node->trieMap.end())
                 node = node->trieMap[c];
@@ -41,7 +27,7 @@ public:
     }
     
     bool startsWith(string word) {
-        TrieNode* node = head;
+        Trie* node = this;
         for (char c: word)
             if (node->trieMap.find(c) != node->trieMap.end())
                 node = node->trieMap[c];
