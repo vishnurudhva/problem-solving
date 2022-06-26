@@ -4,14 +4,11 @@ public:
     bool isEnd = false;
     void insert(string word) {
         Trie* node = this;
-        for (char c: word)
-            if (node->trieMap.find(c) == node->trieMap.end()) {
-                Trie* newNode = new Trie();
-                node->trieMap[c] = newNode;
-                node = newNode;
-            }
-            else
-                node = node->trieMap[c];
+        for (char c: word) {
+            if (node->trieMap.find(c) == node->trieMap.end())
+                node->trieMap[c] = new Trie();
+            node = node->trieMap[c];
+        }
         node->isEnd = true;
     }
     
