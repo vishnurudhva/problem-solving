@@ -14,12 +14,11 @@ public:
     
     bool search(string word) {
         Trie* node = this;
-        for (char c: word)
-            if (node->trieMap.find(c) != node->trieMap.end())
-                node = node->trieMap[c];
-            else
+        for (char c: word) {
+            if (node->trieMap.find(c) == node->trieMap.end())
                 return false;
-        
+            node = node->trieMap[c];
+        }
         return node->isEnd;
     }
     
