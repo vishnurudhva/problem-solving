@@ -18,40 +18,35 @@ public:
     
     void insert(string word) {
         TrieNode* node = head;
-        for (char c: word) {
+        for (char c: word)
             if (node->trieMap.find(c) == node->trieMap.end()) {
                 TrieNode* newNode = new TrieNode(c);
                 node->trieMap[c] = newNode;
                 node = newNode;
-            } else {
-                node = node->trieMap[c];
             }
-        }
+            else
+                node = node->trieMap[c];
         node->isEnd = true;
     }
     
     bool search(string word) {
         TrieNode* node = head;
-        for (char c: word) {
-            if (node->trieMap.find(c) != node->trieMap.end()) {
+        for (char c: word)
+            if (node->trieMap.find(c) != node->trieMap.end())
                 node = node->trieMap[c];
-            } else {
+            else
                 return false;
-            }
-        }
         
         return node->isEnd;
     }
     
     bool startsWith(string word) {
         TrieNode* node = head;
-        for (char c: word) {
-            if (node->trieMap.find(c) != node->trieMap.end()) {
+        for (char c: word)
+            if (node->trieMap.find(c) != node->trieMap.end())
                 node = node->trieMap[c];
-            } else {
+            else
                 return false;
-            }
-        }
         
         return true;
     }
