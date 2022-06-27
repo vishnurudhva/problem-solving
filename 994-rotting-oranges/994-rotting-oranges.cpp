@@ -19,21 +19,11 @@ public:
                 if (grid[i][j] == 2) {
                     downRight(grid, i + 1, j, -1);
                     downRight(grid, i, j + 1, -1);
+                    downRight(grid, i - 1, j, -1);
+                    downRight(grid, i, j - 1, -1);
                 }
             }
         }
-        
-        for (int i = grid.size() - 1; i >= 0; i--) {
-            for (int j = grid[i].size() - 1; j >= 0; j--) {
-                if (grid[i][j] == 0 || grid[i][j] == 1) continue;
-                int rottenBy;
-                if (grid[i][j] == 2) rottenBy = -1;
-                else rottenBy = grid[i][j] - 1;
-                downRight(grid, i - 1, j, rottenBy);
-                downRight(grid, i, j - 1, rottenBy);
-            }
-        }
-        
         int result = INT_MAX;
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[i].size(); j++) {
