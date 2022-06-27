@@ -5,7 +5,7 @@ public:
         while(i <= j) {
             int mid = i + (j - i) / 2;
             
-            if (nums[mid] == target || nums[i] == target || nums[j] == target) return true;
+            if (nums[mid] == target) return true;
             else if (nums[i] == nums[j]) {
                 i++;
             } else if (nums[mid] <= nums[j]) {
