@@ -1,15 +1,26 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        vector<int> DP(amount + 1, amount + 1);
-        DP[0] = 0;
+        vector<int> DP(amount + 1, 0);
+        int ans = calculateChange(coins, amount, DP);
+        return ans;
+    }
+    
+    int calculateChange(vector<int>& coins, int amount, vector<int>& DP) {
+        if (amount < 0) return -1;
+        
+        if (amount == 0) return 0;
+        
+        if (DP[amount] != 0) return DP[amount];
+        int minValue = INT_MAX;
         for (int i = 0; i < coins.size(); i++) {
-            for (int j = 1; j <= amount; j++) {
-                if (coins[i] <= j)
-                    DP[j] = min(DP[j], DP[j - coins[i]] + 1);
-            }
+            int value = calculateChange(coins, amount - coins[i], DP);
+            
+            if (value != -1)
+                minValue = min(minValue, 1 + value);
         }
         
-        return DP[amount] > amount ? - 1 : DP[amount];
+        DP[amount] = minValue == INT_MAX ? -1 : minValue;
+        return DP[amount];
     }
 };
