@@ -2,20 +2,21 @@ class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> result;
-        generate(nums, 0, result);
+        generate(result, {}, nums);
         return result;
     }
     
-    void generate(vector<int>& nums, int k, vector<vector<int>>& result) {
+    void generate(vector<vector<int>>& result, vector<int> temp, vector<int>& nums) {
+        if (temp.size() == nums.size()) {
+            result.push_back(temp);
+            return;
+        }
         
-        if(k == nums.size())
-            result.push_back(nums);
-        else
-        for(int i = k; i < nums.size(); i++)
-        {
-            swap(nums[k], nums[i]);
-            generate(nums, k + 1, result);
-            swap(nums[k], nums[i]);
+        for (int i = 0; i < nums.size(); i++) {
+            if (find(temp.begin(), temp.end(), nums[i]) != temp.end()) continue;
+            temp.push_back(nums[i]);
+            generate(result, temp, nums);
+            temp.pop_back();
         }
     }
 };
