@@ -12,9 +12,10 @@ public:
             return;
         }
         if (i >= candidates.size() || currentSum > target) return;
-        generate(candidates, target, result, currentSum, temp, i + 1);
+        
         temp.push_back(candidates[i]);
         generate(candidates, target, result, currentSum + candidates[i], temp, i);
         temp.pop_back();
+        generate(candidates, target, result, currentSum, temp, i + 1);
     }
 };
