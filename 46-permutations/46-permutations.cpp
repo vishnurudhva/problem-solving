@@ -9,7 +9,7 @@ public:
         return result;
     }
     
-    void generate(vector<vector<int>>& result, vector<int> temp, vector<int>& nums, unordered_map<int, bool> map) {
+    void generate(vector<vector<int>>& result, vector<int> temp, vector<int>& nums, unordered_map<int, bool>& map) {
         if (temp.size() == nums.size()) {
             result.push_back(temp);
             return;
